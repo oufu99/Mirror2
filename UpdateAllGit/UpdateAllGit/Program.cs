@@ -32,9 +32,10 @@ namespace UpdateAllGit
                 string res = CMDHelper.Excute(list);
                 Console.WriteLine(res);
             }
-            Console.WriteLine("执行完毕");
-            Console.WriteLine("执行完毕");
-            Console.WriteLine("执行完毕");
+            for (int i = 0; i < 10; i++)
+            {
+               Console.WriteLine("执行完毕");
+            }
             Console.ReadLine();
         }
 
