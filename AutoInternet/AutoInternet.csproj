@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2337A0EC-C2A5-424E-AF49-5D6987ADE0E4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>EncryptionJs</RootNamespace>
-    <AssemblyName>EncryptionJs</AssemblyName>
+    <RootNamespace>AutoInternet</RootNamespace>
+    <AssemblyName>AutoInternet</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

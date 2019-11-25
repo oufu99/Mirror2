@@ -37,58 +37,94 @@ namespace AutoInternet
 
         public void InitBrowser()
         {
-            var url = "https://www.baidu.com/s?tn=site5566&ch=1&word=%CD%F8%C9%CF%B3%E5%C0%CB+%D3%A2%CE%C4";
+            var url = "http://10.44.254.1:8081/?userip=10.44.61.29&usermac=e468a395fb22";
             var setting = new CefSettings();
             setting.CefCommandLineArgs.Add("disable-gpu", "1"); // 禁用gpu
             Cef.Initialize(setting, true, false);
             browser = new ChromiumWebBrowser(url);
             this.Controls.Add(browser);
             browser.Dock = DockStyle.Fill;
-            obj = new BoundObject(browser);
-            browser.RegisterJsObject("bound", obj);
+            obj = new BoundObject(browser, CheckFrameInit, Login);
+            browser.RegisterJsObject("boundObj", obj);
             browser.FrameLoadEnd += new EventHandler<FrameLoadEndEventArgs>(FrameEndFunc);
             d1 = DateTime.Now;
         }
 
         private void FrameEndFunc(object sender, FrameLoadEndEventArgs e)
         {
-            MessageBox.Show("加载完毕");
-            ExecuteJs();
+            CheckFrameInit();
         }
 
-        private void ExecuteJs()
+        public void CheckFrameInit()
         {
-            //后面把这个弄到加载完毕执行的时候就可以了
-            var js = FormaterJS();
+            var js = @" 
+             var isExit=document.getElementById('username')==undefined;
+             boundObj.handlerJs(isExit)";
             browser.GetMainFrame().Browser.MainFrame.ExecuteJavaScriptAsync(js);
         }
 
-        public string FormaterJS()
+        private void Login()
         {
-            string text = "$('#kw').val('Hello World!')";
+            var js = @" 
+             document.getElementById('username').value = 'oujialin';
+             document.getElementById('password').value='cc1234';
+             document.getElementsByTagName('button')[0].click();";
+            browser.GetMainFrame().Browser.MainFrame.ExecuteJavaScriptAsync(js);
+
+            //打开批处理路径
+            Process.Start(@"D:\MyConfig\MyLoveOpenAllSoft.bat");
+            this.Close();
+            this.Dispose();
+        }
+
+
+        public string FormatterJs(List<string> list)
+        {
+            string text = string.Empty;
+            foreach (var item in list)
+            {
+                text += item;
+            }
             return text;
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            ExecuteJs();
-        }
     }
 
     //这用在js回调C#方法的时候使用
     public class BoundObject
     {
+        public static bool IsDo = false;
+        public static int TotalFunc = 0;
+        Action CheckFunc;
+        Action LoginFunc;
         public ChromiumWebBrowser browser;
         public string OutputPath { get; set; }
 
-        public BoundObject(ChromiumWebBrowser _browser)
+        public BoundObject(ChromiumWebBrowser _browser, Action _checkFunc, Action _loginFunc)
         {
             browser = _browser;
-
+            CheckFunc = _checkFunc;
+            LoginFunc = _loginFunc;
         }
-        public void HandlerJs()
-        {
 
+
+        public void HandlerJs(bool elementCount)
+        {
+            //弄一个获取页面上的元素,如果获取到就开始做事,不然就不管他
+            if (elementCount)
+            {
+                if (TotalFunc >= 10)
+                {
+                    return;
+                }
+                Thread.Sleep(500);
+                TotalFunc++;
+                CheckFunc.Invoke();
+            }
+            else
+            {
+                LoginFunc.Invoke();
+            }
         }
     }
 }
