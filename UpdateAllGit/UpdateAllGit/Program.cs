@@ -46,6 +46,7 @@ namespace UpdateAllGit
                  list.Add("git push");
 
                  string res = CMDHelper.Excute(list);
+                 Console.WriteLine(res);
                  return res;
              });
         }
