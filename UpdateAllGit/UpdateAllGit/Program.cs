@@ -13,7 +13,8 @@ namespace UpdateAllGit
         static void Main(string[] args)
         {
             //调用cmd命令
-
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             var path = ConfigHelper.GetAppConfig("GitPath");
             var pathList = path.Split(new string[] { @";" }, StringSplitOptions.RemoveEmptyEntries);
             var taskList = new List<Task>();
@@ -23,6 +24,8 @@ namespace UpdateAllGit
                 taskList.Add(res);
             }
             Task.WaitAll(taskList.ToArray());
+            sw.Stop();
+            Console.WriteLine("运行了" + sw.ElapsedMilliseconds / 1000 + "秒");
             for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("执行完毕");
