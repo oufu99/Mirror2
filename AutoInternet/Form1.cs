@@ -1,4 +1,5 @@
-﻿using CefSharp;
+﻿using Aaron.Common;
+using CefSharp;
 using CefSharp.WinForms;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace AutoInternet
         public Form1()
         {
             InitializeComponent();
+            Control.CheckForIllegalCrossThreadCalls = false;//
             InitBrowser();
         }
 
@@ -44,7 +46,7 @@ namespace AutoInternet
             browser = new ChromiumWebBrowser(url);
             this.Controls.Add(browser);
             browser.Dock = DockStyle.Fill;
-            obj = new BoundObject(browser, CheckFrameInit, Login);
+            obj = new BoundObject(browser, CheckFrameInit, Login, CloseWindow);
             browser.RegisterJsObject("boundObj", obj);
             browser.FrameLoadEnd += new EventHandler<FrameLoadEndEventArgs>(FrameEndFunc);
             d1 = DateTime.Now;
@@ -68,15 +70,28 @@ namespace AutoInternet
             var js = @" 
              document.getElementById('username').value = 'oujialin';
              document.getElementById('password').value='cc1234';
-             document.getElementsByTagName('button')[0].click();";
+             document.getElementsByTagName('button')[0].click();
+             boundObj.jsCloseWindow();";
             browser.GetMainFrame().Browser.MainFrame.ExecuteJavaScriptAsync(js);
 
-            //打开批处理路径
-            Process.Start(@"D:\MyConfig\MyLoveOpenAllSoft.bat");
-            this.Close();
-            this.Dispose();
+
+
         }
 
+        private void CloseWindow()
+        {
+            Task.Run(() =>
+            {
+                //这里要使用多线程才能防止主线程卡住不动, 不如sleep是主线程休息下面也不会继续走,那就没用,所以要用多线程
+                Thread.Sleep(2000);
+                //打开批处理路径
+                Process.Start(@"D:\MyConfig\MyLoveOpenAllSoft.bat");
+                //关闭此页面
+                ProcessHelper.KillProgramByName("AutoInternet.vshost");
+            });
+
+
+        }
 
         public string FormatterJs(List<string> list)
         {
@@ -97,14 +112,16 @@ namespace AutoInternet
         public static int TotalFunc = 0;
         Action CheckFunc;
         Action LoginFunc;
+        Action CloseWindow;
         public ChromiumWebBrowser browser;
         public string OutputPath { get; set; }
 
-        public BoundObject(ChromiumWebBrowser _browser, Action _checkFunc, Action _loginFunc)
+        public BoundObject(ChromiumWebBrowser _browser, Action _checkFunc, Action _loginFunc, Action _closeWindow)
         {
             browser = _browser;
             CheckFunc = _checkFunc;
             LoginFunc = _loginFunc;
+            CloseWindow = _closeWindow;
         }
 
 
@@ -126,5 +143,10 @@ namespace AutoInternet
                 LoginFunc.Invoke();
             }
         }
+        public void JsCloseWindow()
+        {
+            CloseWindow();
+        }
+
     }
 }
