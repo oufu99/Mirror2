@@ -39,7 +39,7 @@ namespace AutoInternet
 
         public void InitBrowser()
         {
-            var url = "http://10.44.254.1:8081/?userip=10.44.61.29&usermac=e468a395fb22";
+            var url = "http://10.44.254.1:8081/";
             var setting = new CefSettings();
             setting.CefCommandLineArgs.Add("disable-gpu", "1"); // 禁用gpu
             Cef.Initialize(setting, true, false);
