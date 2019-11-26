@@ -16,12 +16,22 @@ namespace UpdateAllGit
             Stopwatch sw = new Stopwatch();
             sw.Start();
             var path = ConfigHelper.GetAppConfig("GitPath");
+            var isOnlyPull = ConfigHelper.GetAppConfig("IsOnlyPull");
             var pathList = path.Split(new string[] { @";" }, StringSplitOptions.RemoveEmptyEntries);
             var taskList = new List<Task>();
             foreach (var item in pathList)
             {
-                var res = UpdateGit(item);
-                taskList.Add(res);
+                if (isOnlyPull == "1")
+                {
+                    var res = PullGit(item);
+                    taskList.Add(res);
+                }
+                else
+                {
+                    var res = UpdateGit(item);
+                    taskList.Add(res);
+                }
+
             }
             Task.WaitAll(taskList.ToArray());
             sw.Stop();
@@ -33,11 +43,17 @@ namespace UpdateAllGit
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// 拉取并提交
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private static async Task<string> UpdateGit(string path)
         {
             return await Task.Run(() =>
              {
-                 Console.WriteLine(path + "开始");
+
+                 Console.WriteLine(path + "开始同步");
                  string disk = FileHelper.GetDiskNameByFullPath(path);
                  List<string> list = new List<string>();
                  list.Add(disk);
@@ -53,5 +69,27 @@ namespace UpdateAllGit
                  return res;
              });
         }
+
+        /// <summary>
+        /// 只需要拉取
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private static async Task<string> PullGit(string path)
+        {
+            return await Task.Run(() =>
+           {
+               Console.WriteLine(path + "开始拉取");
+               string disk = FileHelper.GetDiskNameByFullPath(path);
+               List<string> list = new List<string>();
+               list.Add(disk);
+               list.Add($"cd {path}");
+               list.Add("git pull");
+               string res = CMDHelper.Excute(list);
+               Console.WriteLine(res);
+               return res;
+           });
+        }
+
     }
 }
