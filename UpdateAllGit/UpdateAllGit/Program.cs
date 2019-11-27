@@ -82,6 +82,7 @@ namespace UpdateAllGit
                Console.WriteLine(path + "开始拉取");
                string disk = FileHelper.GetDiskNameByFullPath(path);
                List<string> list = new List<string>();
+               list.Add("chcp 65001");
                list.Add(disk);
                list.Add($"cd {path}");
                list.Add("git pull");
