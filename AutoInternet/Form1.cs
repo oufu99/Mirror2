@@ -73,9 +73,6 @@ namespace AutoInternet
              document.getElementsByTagName('button')[0].click();
              boundObj.jsCloseWindow();";
             browser.GetMainFrame().Browser.MainFrame.ExecuteJavaScriptAsync(js);
-
-
-
         }
 
         private void CloseWindow()
@@ -103,6 +100,10 @@ namespace AutoInternet
             return text;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CloseWindow();  
+        }
     }
 
     //这用在js回调C#方法的时候使用
