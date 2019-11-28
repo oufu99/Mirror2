@@ -133,7 +133,7 @@ namespace AutoInternet
             {
                 if (TotalFunc >= 10)
                 {
-                    return;
+                    CloseWindow();
                 }
                 Thread.Sleep(500);
                 TotalFunc++;

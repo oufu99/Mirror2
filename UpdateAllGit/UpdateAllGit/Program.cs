@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace UpdateAllGit
@@ -40,7 +41,7 @@ namespace UpdateAllGit
             {
                 Console.WriteLine("执行完毕");
             }
-            Console.ReadLine();
+            Thread.Sleep(10000);
         }
 
         /// <summary>
