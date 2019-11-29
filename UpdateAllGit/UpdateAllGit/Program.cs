@@ -41,7 +41,7 @@ namespace UpdateAllGit
             {
                 Console.WriteLine("执行完毕");
             }
-            Thread.Sleep(10000);
+            Console.ReadLine();
         }
 
         /// <summary>
