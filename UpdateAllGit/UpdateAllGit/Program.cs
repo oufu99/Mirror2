@@ -75,7 +75,7 @@ namespace UpdateAllGit
 
                 list.Add("git pull");
                 list.Add("git add .");
-                list.Add("git commit -m \"批量提交\"");
+                list.Add("git commit -m \"aaron commit\"");
                 list.Add("git push");
 
                 string res = CMDHelper.Excute(list);
