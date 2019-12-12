@@ -11,6 +11,7 @@ namespace UpdateAllGit
 {
     class Program
     {
+        public static string IsContinue;
         static void Main(string[] args)
         {
             //调用cmd命令
@@ -41,7 +42,20 @@ namespace UpdateAllGit
             {
                 Console.WriteLine("执行完毕");
             }
-            Console.ReadLine();
+
+            Task.Run(() =>
+            {
+                Console.WriteLine("输入任意键终止退出");
+                IsContinue = Console.ReadLine();
+                Console.WriteLine("已经终止退出");
+
+            });
+            Thread.Sleep(5000);
+            if (!string.IsNullOrEmpty(IsContinue))
+            {
+                Console.WriteLine("停止退出");
+                Console.ReadLine();
+            }
         }
 
         /// <summary>
@@ -52,23 +66,22 @@ namespace UpdateAllGit
         private static async Task<string> UpdateGit(string path)
         {
             return await Task.Run(() =>
-             {
+            {
+                Console.WriteLine(path + "开始同步");
+                string disk = FileHelper.GetDiskNameByFullPath(path);
+                List<string> list = GetCommonList();
+                list.Add(disk);
+                list.Add($"cd {path}");
 
-                 Console.WriteLine(path + "开始同步");
-                 string disk = FileHelper.GetDiskNameByFullPath(path);
-                 List<string> list = new List<string>();
-                 list.Add(disk);
-                 list.Add($"cd {path}");
+                list.Add("git pull");
+                list.Add("git add .");
+                list.Add("git commit -m \"批量提交\"");
+                list.Add("git push");
 
-                 list.Add("git pull");
-                 list.Add("git add *");
-                 list.Add("git  commit -m \"Aaron的程序自动批量提交\"");
-                 list.Add("git push");
-
-                 string res = CMDHelper.Excute(list);
-                 Console.WriteLine(res);
-                 return res;
-             });
+                string res = CMDHelper.Excute(list);
+                Console.WriteLine(res);
+                return res;
+            });
         }
 
         /// <summary>
@@ -82,8 +95,7 @@ namespace UpdateAllGit
            {
                Console.WriteLine(path + "开始拉取");
                string disk = FileHelper.GetDiskNameByFullPath(path);
-               List<string> list = new List<string>();
-               list.Add("chcp 65001");
+               List<string> list = GetCommonList();
                list.Add(disk);
                list.Add($"cd {path}");
                list.Add("git pull");
@@ -93,5 +105,15 @@ namespace UpdateAllGit
            });
         }
 
+        /// <summary>
+        /// 获取通用的List语句
+        /// </summary>
+        /// <returns></returns>
+        private static List<string> GetCommonList()
+        {
+            var list = new List<string>();
+            list.Add("chcp 65001");
+            return list;
+        }
     }
 }

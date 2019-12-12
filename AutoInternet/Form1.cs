@@ -81,6 +81,8 @@ namespace AutoInternet
             {
                 //这里要使用多线程才能防止主线程卡住不动, 不如sleep是主线程休息下面也不会继续走,那就没用,所以要用多线程
                 Thread.Sleep(2000);
+                //关闭浏览器
+                ProcessHelper.KillProgramByName("Google Chrome");
                 //打开批处理路径
                 Process.Start(@"D:\MyConfig\MyLoveOpenAllSoft.bat");
                 //关闭此页面
@@ -102,7 +104,7 @@ namespace AutoInternet
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CloseWindow();  
+            CloseWindow();
         }
     }
 
