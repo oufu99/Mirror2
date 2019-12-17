@@ -76,6 +76,7 @@ namespace UpdateAllGit
                 list.Add("git pull");
                 list.Add("git add .");
                 list.Add("git commit -m \"aaron commit\"");
+
                 list.Add("git push");
 
                 string res = CMDHelper.Excute(list);
@@ -112,6 +113,7 @@ namespace UpdateAllGit
         private static List<string> GetCommonList()
         {
             var list = new List<string>();
+            //加了这个以后 命令行中不能出现中文,不然会提交不上去
             list.Add("chcp 65001");
             return list;
         }
