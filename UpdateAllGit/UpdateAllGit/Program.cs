@@ -11,6 +11,7 @@ namespace UpdateAllGit
 {
     class Program
     {
+        public static List<string> proList = new List<string>();
         public static string IsContinue;
         static void Main(string[] args)
         {
@@ -19,7 +20,10 @@ namespace UpdateAllGit
             sw.Start();
             var path = ConfigHelper.GetAppConfig("GitPath");
             var isOnlyPull = ConfigHelper.GetAppConfig("IsOnlyPull");
-            var pathList = path.Split(new string[] { @";" }, StringSplitOptions.RemoveEmptyEntries);
+            var pathList = path.Split(new string[] { @";" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var arr = new string[pathList.Count];
+            pathList.CopyTo(arr, 0);
+            proList = arr.ToList();
             var taskList = new List<Task>();
             foreach (var item in pathList)
             {
@@ -35,6 +39,14 @@ namespace UpdateAllGit
                 }
 
             }
+            Task.Run(() =>
+            {
+                while (proList.Count > 0)
+                {
+                    Console.WriteLine($"还剩下{string.Join(",", proList)}");
+                    Thread.Sleep(2000);
+                }
+            });
             Task.WaitAll(taskList.ToArray());
             sw.Stop();
             Console.WriteLine("运行了" + sw.ElapsedMilliseconds / 1000 + "秒");
@@ -81,6 +93,7 @@ namespace UpdateAllGit
 
                 string res = CMDHelper.Excute(list);
                 Console.WriteLine(res);
+                proList.Remove(path);
                 return res;
             });
         }
@@ -102,6 +115,7 @@ namespace UpdateAllGit
                list.Add("git pull");
                string res = CMDHelper.Excute(list);
                Console.WriteLine(res);
+               proList.Remove(path);
                return res;
            });
         }
