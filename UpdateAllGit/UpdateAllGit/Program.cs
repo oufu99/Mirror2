@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -18,15 +19,26 @@ namespace UpdateAllGit
             //调用cmd命令
             Stopwatch sw = new Stopwatch();
             sw.Start();
+            var disk = ConfigHelper.GetAppConfig("Disk");
             var path = ConfigHelper.GetAppConfig("GitPath");
             var isOnlyPull = ConfigHelper.GetAppConfig("IsOnlyPull");
             var pathList = path.Split(new string[] { @";" }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var arr = new string[pathList.Count];
+            //新改了要加上盘符
+            for (int i = 0; i < pathList.Count; i++)
+            {
+                pathList[i] = Path.Combine(disk, pathList[i]);
+            }
             pathList.CopyTo(arr, 0);
             proList = arr.ToList();
+
+            var list = new List<string>();
+
+
             var taskList = new List<Task>();
             foreach (var item in pathList)
             {
+
                 if (isOnlyPull == "1")
                 {
                     var res = PullGit(item);
