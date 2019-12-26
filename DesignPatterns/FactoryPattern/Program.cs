@@ -29,7 +29,7 @@ namespace FactoryPattern
 
     public class Operation
     {
-        public virtual decimal GetResult()
+        public virtual int  GetResult()
         {
             throw new Exception("子类没有实现");
 
