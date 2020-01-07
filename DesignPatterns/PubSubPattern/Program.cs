@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StackExchange.Redis;
 
 namespace PubSubPattern
 {
@@ -13,8 +14,9 @@ namespace PubSubPattern
         {
 
             RedisHelper redis = new RedisHelper();
-            var client=redis.GetClient();
-            client.Publish();
+            var client = redis.GetClient();
+         
+            client.Publish(new RedisChannel("aaron", RedisChannel.PatternMode.Auto), "i'm json");
         }
     }
 }
