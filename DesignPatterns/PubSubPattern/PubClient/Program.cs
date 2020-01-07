@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StackExchange.Redis;
+using System.Threading;
 
 namespace PubSubPattern
 {
@@ -14,9 +15,20 @@ namespace PubSubPattern
         {
 
             RedisHelper redis = new RedisHelper();
-            var client = redis.GetClient();
-         
-            client.Publish(new RedisChannel("aaron", RedisChannel.PatternMode.Auto), "i'm json");
+
+            for (var i = 1; i < 20; i++)
+            {
+
+                RedisHelper.Using(
+                    rd =>
+                    {
+                        rd.Use(1).RedisPub<string>("aaronSay", i.ToString());
+                    });
+
+                Thread.Sleep(200);
+            }
+
+
         }
     }
 }

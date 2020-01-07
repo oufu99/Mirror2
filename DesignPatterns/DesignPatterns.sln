@@ -5,11 +5,15 @@ VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryPattern", "FactoryPattern\FactoryPattern.csproj", "{587359EA-9388-4F24-94F7-3BC66FC98EC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PubSubPattern", "PubSubPattern\PubSubPattern.csproj", "{0DB5B76B-29FD-401B-997E-B09A3B816971}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PubClient", "PubSubPattern\PubClient\PubClient.csproj", "{0DB5B76B-29FD-401B-997E-B09A3B816971}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubClient", "PubSubPattern\SubClient\SubClient.csproj", "{5F386C05-CE95-4DFC-81A2-F32572F87A89}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aaron.DataCommon", "..\..\Mirror\Aaron.Common\Aaron.DataHelper\Aaron.DataCommon.csproj", "{2350D6E3-836F-42B6-A307-DFEF14F2DD4A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aaron.Common", "..\..\Mirror\Aaron.Common\Aaron.Common\Aaron.Common.csproj", "{E69C1078-89C4-49D9-A64C-7BC8E9415A33}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PubSubPattern", "PubSubPattern", "{E3CF14B9-1478-4EEF-B334-7940290F56FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +29,10 @@ Global
 		{0DB5B76B-29FD-401B-997E-B09A3B816971}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DB5B76B-29FD-401B-997E-B09A3B816971}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DB5B76B-29FD-401B-997E-B09A3B816971}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F386C05-CE95-4DFC-81A2-F32572F87A89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F386C05-CE95-4DFC-81A2-F32572F87A89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F386C05-CE95-4DFC-81A2-F32572F87A89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F386C05-CE95-4DFC-81A2-F32572F87A89}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2350D6E3-836F-42B6-A307-DFEF14F2DD4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2350D6E3-836F-42B6-A307-DFEF14F2DD4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2350D6E3-836F-42B6-A307-DFEF14F2DD4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,6 +44,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0DB5B76B-29FD-401B-997E-B09A3B816971} = {E3CF14B9-1478-4EEF-B334-7940290F56FD}
+		{5F386C05-CE95-4DFC-81A2-F32572F87A89} = {E3CF14B9-1478-4EEF-B334-7940290F56FD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {369B648F-0579-4C8D-9A36-4A377AA07D1F}

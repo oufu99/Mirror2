@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BE27079C-A83F-422F-A078-7CB4FE55B03C}</ProjectGuid>
+    <ProjectGuid>{0DB5B76B-29FD-401B-997E-B09A3B816971}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>PubSub</RootNamespace>
-    <AssemblyName>PubSub</AssemblyName>
+    <RootNamespace>PubClient</RootNamespace>
+    <AssemblyName>PubClient</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="StackExchange.Redis, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.1.603\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +51,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Mirror\Aaron.Common\Aaron.Common\Aaron.Common.csproj">
+      <Project>{e69c1078-89c4-49d9-a64c-7bc8e9415a33}</Project>
+      <Name>Aaron.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Mirror\Aaron.Common\Aaron.DataHelper\Aaron.DataCommon.csproj">
+      <Project>{2350d6e3-836f-42b6-a307-dfef14f2dd4a}</Project>
+      <Name>Aaron.DataCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -54,7 +54,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Mirror\Aaron.Common\Aaron.DataHelper\Aaron.DataCommon.csproj">
+    <ProjectReference Include="..\..\..\..\Mirror\Aaron.Common\Aaron.DataHelper\Aaron.DataCommon.csproj">
       <Project>{2350d6e3-836f-42b6-a307-dfef14f2dd4a}</Project>
       <Name>Aaron.DataCommon</Name>
     </ProjectReference>
