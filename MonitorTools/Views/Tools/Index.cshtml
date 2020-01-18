@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Js/"></script>
+    <script>
+        function Test() {
+
+            $.ajax({
+                url: '/Tools/Monitor',
+                type: 'post',
+                data:
+                {
+                    request: $("#requestText").val()
+                },
+                success: function (data) {
+                    var str = JSON.parse(data);
+                    alert(str);
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+
+        <textarea id="requestText" style="width:500px;height:500px;">
+
+        </textarea>
+        <input type="button" value="监控" onclick="Test()" />
+
+    </div>
+
+</body>
+</html>
