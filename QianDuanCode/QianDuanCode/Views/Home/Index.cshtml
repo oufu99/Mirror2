@@ -1,0 +1,136 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Js/jquery-3.3.1.js"></script>
+    <script src="~/Js/vue.js"></script>
+    <script src="~/Js/layui.all.js"></script>
+    <link href="~/Css/layui.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        @*请求的参数*@
+        <form class="layui-form" onsubmit="return false">
+            <div class="layui-form-item">
+                <label class="layui-form-label">请求的方法名:</label>
+                <div class="layui-inline">
+                    <select name="city" lay-verify="required">
+                        <option value=""></option>
+                        <option value="0">下单</option>
+                        <option value="1">变价</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">请求参数</label>
+                <div class="layui-input-block">
+                    <textarea id="txtJson" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-input-block">
+                <button class="layui-btn" id="btn" lay-submit lay-filter="formRequest">请求</button>
+                <button class="layui-btn" id="btn1" lay-submit lay-filter="formResponse">获取结果</button>
+            </div>
+        </form>
+
+        <script>
+            var form;
+
+            layui.use('form', function () {
+                form = layui.form;
+
+                //监听提交
+                form.on('submit(formDemo)', function (data) {
+                    layer.msg(JSON.stringify(data.field));
+                    return false;
+                });
+                $ = layui.jquery;
+                $(document).on('click', '#btn', RequestUrl);
+                form.render();
+
+          
+            });
+            function RequestUrl() {
+                pageData.ListData = ["G1", "G2", "G3", "G4", "G5"];
+            }
+        </script>
+    </div>
+    <div id="app">
+        @*找一个Table框架*@
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>步骤</th>
+                    <th>执行结果</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in ListData">
+                    <td>{{index+1}}</td>
+                    <td>{{item}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <div id="pageInfo"></div>
+    </div>
+    <script>
+        var pageData = {
+            ListData: ["T1", "T2", "T3", "T4", "T5"]
+        }
+        var appNew = new Vue({
+            el: '#app',
+            data: pageData,
+            mounted: function () {
+
+            },
+            methods: {
+            }
+        })
+    </script>
+
+    <script>
+        layui.use('laypage', function () {
+            var laypage = layui.laypage;
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'pageInfo' //注意，这里的 test1 是 ID，不用加 # 号
+                , count: 50,
+                jump: function (obj, first) {
+
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit); //得到每页显示的条数
+
+                    //首次不执行
+                    if (!first) {
+                        //分页代码
+                        if (obj.curr == 2) {
+                            pageData.ListData = ["TT1", "TT2", "TT3", "TT4", "TT5"];
+                        }
+                        else if (obj.curr == 3) {
+                            pageData.ListData = ["TTT1", "TTT2", "TTT3", "TTT4", "TTT5"];
+                        }
+                        else {
+                            pageData.ListData = ["T1", "T2", "T3", "T4", "T5"];
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
