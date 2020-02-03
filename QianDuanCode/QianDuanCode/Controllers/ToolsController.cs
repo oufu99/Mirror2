@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -46,8 +47,22 @@ namespace QianDuanCode.Controllers
 
         private string GetToken()
         {
+            var model = new RequestTokenModel()
+            {
+                appid = ConfigurationManager.AppSettings["appId"],
+                appkey = ConfigurationManager.AppSettings["appkey"]
+            };
+            var url = "http://localhost:8082/api/token";
+            //Common.PostHttpResponse(url, model);
+
             return "dfeg3%3f";
         }
 
+    }
+
+    public class RequestTokenModel
+    {
+        public string appid { get; set; }
+        public string appkey { get; set; }
     }
 }
