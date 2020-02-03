@@ -41,7 +41,7 @@
                     random: random
                 },
                 success: function (data) {
-                    pageModel.ListData = JSON.parse(data);
+                    pageModel.listData = JSON.parse(data);
                 }
             });
         }
@@ -76,13 +76,13 @@
             @*请求的参数*@
             <form class="layui-form" onsubmit="return false">
                 <div class="layui-form-item">
-                        <label class="layui-form-label">请求的方法名:</label>
-                        <div class="layui-inline">
-                            <select id="ddlName">
-                                <option v-bind:value="item.Url" v-for="item in ddlListData">{{item.Name}}</option>
-                            </select>
-                        </div>
+                    <label class="layui-form-label">请求的方法名:</label>
+                    <div class="layui-inline">
+                        <select id="ddlName">
+                            <option v-bind:value="item.Url" v-for="item in ddllistData">{{item.Name}}</option>
+                        </select>
                     </div>
+                </div>
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">请求参数</label>
                     <div class="layui-input-block">
@@ -128,7 +128,7 @@
         var pageModel = {
             listData: ["T1", "T2", "T3", "T4", "T5"],
             ddlSelect: "",
-            ddlListData: [{ Name: "下单", Url: "http://localhost:8082/api/AddOrder" }, { Name: "下单2", Url: "http://localhost:8082/api/AddOrder2" }],
+            ddllistData: [{ Name: "下单", Url: "http://localhost:8082/api/AddOrder" }, { Name: "下单2", Url: "http://localhost:8082/api/AddOrder2" }],
             txtArea: ""
         }
         var appNew = new Vue({
@@ -141,32 +141,13 @@
 
             }
         })
+
+
     </script>
 
     <script>
         var form;
 
-        layui.use('form', function () {
-            form = layui.form;
-
-            //监听提交
-            form.on('submit(formDemo)', function (data) {
-                layer.msg(JSON.stringify(data.field));
-                return false;
-            });
-            $ = layui.jquery;
-            $(document).on('click', '#btnRequest', Monitor);
-            $(document).on('click', '#btnResponse', GetMonitorLog);
-            form.render();
-
-
-        });
-        function RequestUrl() {
-            pageModel.ListData = ["G1", "G2", "G3", "G4", "G5"];
-        }
-    </script>
-
-    <script>
         layui.use('laypage', function () {
             var laypage = layui.laypage;
             //执行一个laypage实例
@@ -183,18 +164,34 @@
                     if (!first) {
                         //分页代码
                         if (obj.curr == 2) {
-                            pageModel.ListData = ["TT1", "TT2", "TT3", "TT4", "TT5"];
+                            pageModel.listData = ["TT1", "TT2", "TT3", "TT4", "TT5"];
                         }
                         else if (obj.curr == 3) {
-                            pageModel.ListData = ["TTT1", "TTT2", "TTT3", "TTT4", "TTT5"];
+                            pageModel.listData = ["TTT1", "TTT2", "TTT3", "TTT4", "TTT5"];
                         }
                         else {
-                            pageModel.ListData = ["T1", "T2", "T3", "T4", "T5"];
+                            pageModel.listData = ["T1", "T2", "T3", "T4", "T5"];
                         }
                     }
                 }
             });
         });
+
+        layui.use('form', function () {
+            form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function (data) {
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+            $ = layui.jquery;
+            $(document).on('click', '#btnRequest', Monitor);
+            $(document).on('click', '#btnResponse', GetMonitorLog);
+            form.render();
+        });
+
     </script>
+
 </body>
 </html>
