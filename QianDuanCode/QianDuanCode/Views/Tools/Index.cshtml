@@ -14,60 +14,7 @@
     <script src="~/Js/layui.all.js"></script>
     <link href="~/Css/layui.css" rel="stylesheet" />
 
-    <script>
-        var random = GetRandom();
 
-        function Monitor() {
-            $.ajax({
-                url: '/Tools/Monitor',
-                type: 'post',
-                data:
-                {
-                    url: "http://localhost:8082/api/AddOrder",
-                    json: $("#requestText").val(),
-                    random: random
-                },
-                success: function (data) {
-                    alert(data);
-                }
-            });
-        }
-        function GetMonitorLog() {
-            $.ajax({
-                url: '/Tools/GetMonitorLog',
-                type: 'post',
-                data:
-                {
-                    random: random
-                },
-                success: function (data) {
-                    pageModel.listData = JSON.parse(data);
-                }
-            });
-        }
-
-        //获取请求的随机数 用以区别每次请求
-        function GetRandom() {
-            var date = GetNowFormatDate();
-            var random = parseInt(Math.random() * 1000);
-            var res = date + random;
-            return res;
-        }
-        function GetNowFormatDate() {
-            var date = new Date();
-            var year = date.getFullYear();
-            var month = date.getMonth() + 1;
-            var strDate = date.getDate();
-            if (month >= 1 && month <= 9) {
-                month = "0" + month;
-            }
-            if (strDate >= 0 && strDate <= 9) {
-                strDate = "0" + strDate;
-            }
-            var currentdate = year + month + + strDate;
-            return currentdate;
-        }
-    </script>
 </head>
 <body>
 
@@ -90,8 +37,8 @@
                     </div>
                 </div>
                 <div class="layui-input-block">
-                    <button class="layui-btn" id="btnRequest" lay-submit lay-filter="formRequest">请求</button>
-                    <button class="layui-btn" id="btnResponse" lay-submit lay-filter="formResponse">获取结果</button>
+                    <button class="layui-btn" id="btnRequest" v-on:click="Monitor()" lay-submit lay-filter="formRequest">请求</button>
+                    <button class="layui-btn" id="btnResponse" v-on:click="GetMonitorLog()" lay-submit lay-filter="formResponse">获取结果</button>
                 </div>
             </form>
 
@@ -126,72 +73,75 @@
 
     <script>
         var pageModel = {
+            //用于同一次请求的唯一标识
+            random: "",
             listData: ["T1", "T2", "T3", "T4", "T5"],
             ddlSelect: "",
-            ddllistData: [{ Name: "下单", Url: "http://localhost:8082/api/AddOrder" }, { Name: "下单2", Url: "http://localhost:8082/api/AddOrder2" }],
-            txtArea: ""
+            ddllistData: [{ Name: "下单", Url: "http://localhost:8082/api/AddOrder" }, { Name: "下单2", Url: "http://localhost:8082/api/AddOrder2" }],   
+          
         }
         var appNew = new Vue({
             el: '#app',
             data: pageModel,
             mounted: function () {
-
+                this.random = this.GetRandom();
             },
             methods: {
-
+                Monitor: function () {
+                    $.ajax({
+                        url: '/Tools/Monitor',
+                        type: 'post',
+                        data:
+                        {
+                            url: "http://localhost:8082/api/AddOrder",
+                            json: $("#txtJson").val(),
+                            random: this.random
+                        },
+                        success: function (data) {
+                            alert(data);
+                        }
+                    });
+                },
+                GetMonitorLog: function () {
+                    $.ajax({
+                        url: '/Tools/GetMonitorLog',
+                        type: 'post',
+                        data:
+                        {
+                            random: this.random
+                        },
+                        success: function (data) {
+                            pageModel.listData = JSON.parse(data);
+                        }
+                    });
+                },
+                //获取请求的随机数 用以区别每次请求
+                GetRandom: function () {
+                    var date = this.GetNowFormatDate();
+                    var random = parseInt(Math.random() * 1000);
+                    var res = date + random;
+                    return res;
+                },
+                GetNowFormatDate: function () {
+                    var date = new Date();
+                    var year = date.getFullYear();
+                    var month = date.getMonth() + 1;
+                    var strDate = date.getDate();
+                    if (month >= 1 && month <= 9) {
+                        month = "0" + month;
+                    }
+                    if (strDate >= 0 && strDate <= 9) {
+                        strDate = "0" + strDate;
+                    }
+                    var currentdate = year + month + + strDate;
+                    return currentdate;
+                },
             }
         })
 
-
     </script>
-
-    <script>
-        var form;
-
-        layui.use('laypage', function () {
-            var laypage = layui.laypage;
-            //执行一个laypage实例
-            laypage.render({
-                elem: 'pageInfo' //注意，这里的 test1 是 ID，不用加 # 号
-                , count: 50,
-                jump: function (obj, first) {
-
-                    //obj包含了当前分页的所有参数，比如：
-                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                    console.log(obj.limit); //得到每页显示的条数
-
-                    //首次不执行
-                    if (!first) {
-                        //分页代码
-                        if (obj.curr == 2) {
-                            pageModel.listData = ["TT1", "TT2", "TT3", "TT4", "TT5"];
-                        }
-                        else if (obj.curr == 3) {
-                            pageModel.listData = ["TTT1", "TTT2", "TTT3", "TTT4", "TTT5"];
-                        }
-                        else {
-                            pageModel.listData = ["T1", "T2", "T3", "T4", "T5"];
-                        }
-                    }
-                }
-            });
-        });
-
-        layui.use('form', function () {
-            form = layui.form;
-
-            //监听提交
-            form.on('submit(formDemo)', function (data) {
-                layer.msg(JSON.stringify(data.field));
-                return false;
-            });
-            $ = layui.jquery;
-            $(document).on('click', '#btnRequest', Monitor);
-            $(document).on('click', '#btnResponse', GetMonitorLog);
-            form.render();
-        });
-
-    </script>
-
+    
+    @*layui初始化*@
+    <script src="~/Js/layInit.js"></script>
 </body>
 </html>

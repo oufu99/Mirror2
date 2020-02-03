@@ -178,6 +178,7 @@
     </Content>
     <Content Include="Js\jquery-3.3.1.js" />
     <Content Include="Js\layui.all.js" />
+    <Content Include="Js\layInit.js" />
     <Content Include="Js\vue.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
