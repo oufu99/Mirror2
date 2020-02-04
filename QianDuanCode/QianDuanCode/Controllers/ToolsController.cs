@@ -42,7 +42,7 @@ namespace QianDuanCode.Controllers
             //var list = Common.PostHttpResponse(url, "");
 
             var data = new MonitorResponseModel { TotalCount = 0, Data = new List<string>() };
-            var list = new List<string>() { "结果1", "结果1", "结果1", "结果1", "结果1", "结果1", "结果1", "结果1", "结果1", "结果1", "结果1" };
+            var list = new List<string>() { "验证对应渠道是否支持下架:{\"HotelID\":null,\"CheckInDate\":\"0001-01-01T00:00:00\",\"CheckOutDate\":\"0001-01-01T00:00:00\",\"Num\":0,\"RoomTypeID\":null,\"MebName\":null,\"Tel\":null,\"SumPrice\":null,\"Remark\":null,\"CheckInType\":null,\"PapersNO\":null,\"IsGuarantee\":null,\"ActivityCode\":null,\"OutOrderID\":null,\"MebTel\":null,\"MemberNo\":null,\"MebPassword\":null,\"OrderType\":null,\"CouponCode\":null,\"OldCardNO\":null,\"RateType\":null,\"RateMemberType\":null,\"RateplanCode\":null,\"OTABookType\":null,\"AgreementNo\":null,\"CouponActivityCode\":null,\"TokenId\":null}", "截个屏", "结果1", "结果1", "结果1", "结果2", "结果2", "结果2", "结果2", "结果2", "结果2" };
 
 
             if (list == null)

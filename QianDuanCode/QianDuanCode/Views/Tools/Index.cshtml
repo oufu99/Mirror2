@@ -19,7 +19,7 @@
 <body>
 
     <div id="app">
-        <div>
+        <div  style="width:800px;">
             @*请求的参数*@
             <form class="layui-form" onsubmit="return false">
                 <div class="layui-form-item">
@@ -38,19 +38,13 @@
                 </div>
                 <div class="layui-input-block">
                     <button class="layui-btn" id="btnRequest" v-on:click="Monitor()" lay-submit lay-filter="formRequest">请求</button>
-                    <button class="layui-btn" id="btnResponse" v-on:click="GetMonitorLog(1)" lay-submit lay-filter="formResponse">获取结果</button>
+                    <button class="layui-btn" id="btnResponse" v-on:click="GetMonitorLog(1,false)" lay-submit lay-filter="formResponse">获取结果</button>
                 </div>
             </form>
 
         </div>
         <div>
-            @*找一个Table框架*@
-            <table class="layui-table">
-                <colgroup>
-                    <col width="150">
-                    <col width="200">
-                    <col>
-                </colgroup>
+            <table class="layui-table" style="table-layout: fixed;width:1200px;" >
                 <thead>
                     <tr>
                         <th>步骤</th>
@@ -60,9 +54,8 @@
                 <tbody>
                     <tr v-for="(item,index) in listData">
                         <td>{{index+1}}</td>
-                        <td>{{item}}</td>
+                        <td  style="word-break: break-all; word-wrap:break-word;">{{item}}</td>
                     </tr>
-
                 </tbody>
             </table>
 
@@ -79,8 +72,8 @@
             ddlSelect: "",
             ddllistData: [{ Name: "下单", Url: "http://localhost:8082/api/AddOrder" }, { Name: "下单2", Url: "http://localhost:8082/api/AddOrder2" }],
             pageSize: 5,
-            totalCount: 0,
-            page: {}
+            totalCount: 50,
+
         }
 
         var methods = {
@@ -99,22 +92,49 @@
                     }
                 });
             },
-            GetMonitorLog: function () {
+
+            GetMonitorLog: function (pageIndex, isPageDown) {
                 $.ajax({
                     url: '/Tools/GetMonitorLog',
                     type: 'post',
                     data:
                     {
                         random: pageModel.random,
-                        pageIndex: pageModel.page.curr,
+                        pageIndex: pageIndex,
                         pageSize: pageModel.pageSize
                     },
                     success: function (json) {
                         var data = JSON.parse(json);
                         pageModel.listData = data.Data;
-                        pageModel.totalCount = data.TotalCount; 3
-                        pageModel.page.count = pageModel.totalCount;
+                        //不是通过翻页按钮进来的,需要重新刷新分页控件  这个是异步的,所以要先写在回调这里
+                        if (!isPageDown) {
+                            methods.RefreshPage(data.TotalCount);
+                        }
                     }
+                });
+            },
+            RefreshPage: function (totalCount) {
+                layui.use('laypage', function () {
+                    var laypage = layui.laypage;
+                    //执行一个laypage实例
+                    laypage.render({
+                        elem: 'pageInfo',
+                        count: totalCount,
+                        layout: ['prev', 'page', 'next', "count"],
+                        jump: function (obj, first) {
+                            if (!first) {
+                                //分页代码
+                                console.log("test");
+                                console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                                console.log(obj.limit); //得到每页显示的条数
+                                methods.GetMonitorLog(obj.curr, true);
+
+                            }
+                            else {
+                                pageModel.page = obj;
+                            }
+                        }
+                    });
                 });
             },
             //获取请求的随机数 用以区别每次请求
@@ -147,26 +167,7 @@
             data: pageModel,
             mounted: function () {
                 this.random = this.GetRandom();
-                layui.use('laypage', function () {
-                    var laypage = layui.laypage;
-                    //执行一个laypage实例
-                    laypage.render({
-                        elem: 'pageInfo',
-                        count: pageModel.totalCount,
-                        jump: function (obj, first) {
-                            if (!first) {
-                                //分页代码
-                                console.log("test");
-                                console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                                console.log(obj.limit); //得到每页显示的条数
-                                //methods.GetMonitorLog(obj);
-                            }
-                            else {
-                                pageModel.page = obj;
-                            }
-                        }
-                    });
-                });
+                this.RefreshPage(0);
 
                 layui.use('form', function () {
                     var form = layui.form;
@@ -189,40 +190,40 @@
 
     <script>
 
-                        //layui.use('laypage', function () {
-                        //    var laypage = layui.laypage;
-                        //    //执行一个laypage实例
-                        //    laypage.render({
-                        //        elem: 'pageInfo' //注意，这里的 test1 是 ID，不用加 # 号
-                        //        , count: 50,
-                        //        jump: function (obj, first) {
+                                //layui.use('laypage', function () {
+                                //    var laypage = layui.laypage;
+                                //    //执行一个laypage实例
+                                //    laypage.render({
+                                //        elem: 'pageInfo' //注意，这里的 test1 是 ID，不用加 # 号
+                                //        , count: 50,
+                                //        jump: function (obj, first) {
 
-                        //            //obj包含了当前分页的所有参数，比如：
-                        //            console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                        //            console.log(obj.limit); //得到每页显示的条数
+                                //            //obj包含了当前分页的所有参数，比如：
+                                //            console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                                //            console.log(obj.limit); //得到每页显示的条数
 
-                        //            //首次不执行
-                        //            if (!first) {
-                        //                //分页代码
-                        //                this.GetMonitorLog(obj.curr);
-                        //            }
-                        //        }
-                        //    });
-                        //});
+                                //            //首次不执行
+                                //            if (!first) {
+                                //                //分页代码
+                                //                this.GetMonitorLog(obj.curr);
+                                //            }
+                                //        }
+                                //    });
+                                //});
 
-                        //layui.use('form', function () {
-                        //    var form = layui.form;
+                                //layui.use('form', function () {
+                                //    var form = layui.form;
 
-                        //    //监听提交
-                        //    form.on('submit(formDemo)', function (data) {
-                        //        layer.msg(JSON.stringify(data.field));
-                        //        return false;
-                        //    });
-                        //    $ = layui.jquery;
-                        //    //$(document).on('click', '#btnRequest', Monitor);
-                        //    //$(document).on('click', '#btnResponse', GetMonitorLog);
-                        //    form.render();
-                        //});
+                                //    //监听提交
+                                //    form.on('submit(formDemo)', function (data) {
+                                //        layer.msg(JSON.stringify(data.field));
+                                //        return false;
+                                //    });
+                                //    $ = layui.jquery;
+                                //    //$(document).on('click', '#btnRequest', Monitor);
+                                //    //$(document).on('click', '#btnResponse', GetMonitorLog);
+                                //    form.render();
+                                //});
 
     </script>
     @*layui初始化*@
