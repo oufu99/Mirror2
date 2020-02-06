@@ -14,6 +14,7 @@ namespace RabbitMqSend
         {
             var channelName = "AaronMq";
 
+
             var factory = new ConnectionFactory();
             factory.HostName = "localhost";
             factory.UserName = "guest";
