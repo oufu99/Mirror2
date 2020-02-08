@@ -1,0 +1,65 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Index</title>
+    <link href="~/Js/css/easy/demo.css" rel="stylesheet" />
+    <link href="~/Js/css/easy/easyui.css" rel="stylesheet" />
+    <link href="~/Js/css/easy/icon.css" rel="stylesheet" />
+    <script src="~/Js/jquery-3.3.1.js"></script>
+
+    @*<script src="~/Js/easyUI/jquery.easyui.1.3.js"></script>*@
+    <script src="~/Js/easyUI/jquery.easyui1.5.js"></script>
+    <script>
+        function CheckAll(obj) {
+            if (obj.ID == "-1") {
+
+                var allVal = [];
+                //获取下拉框的所有值  然后赋值
+                var datas = $("#cc").combobox('getData');
+                //判断是否已经全部选中,如果全选就删调
+                var selects = $("#cc").combobox('getValues');
+                if (datas.length == selects.length) {
+                    $("#cc").combobox('setValues', allVal);
+                }
+                else {
+
+                    //从1开始就不会选中全选
+                    for (var i = 1; i < datas.length; i++) {
+                        allVal.push(datas[i].ID);
+                    }
+                    $("#cc").combobox('setValues', allVal);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>checkBox全选</h2>
+
+    <div style="margin:20px 0"></div>
+    <div class="easyui-panel" style="width:100%;max-width:400px;padding:30px 60px;">
+        <div style="margin-bottom:20px">
+            <input id="cc" class="easyui-combobox" name="language[]" style="width:100%;" data-options="
+                url:'/Js/easyUI/combobox_data1.json',
+                method:'get',
+                valueField:'id',
+                textField:'text',
+                value:[4],
+                multiple:true,
+                label: '编程语言:',
+                   onSelect:CheckOther
+                ">
+
+
+
+        </div>
+    </div>
+</body>
+</html>

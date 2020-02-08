@@ -11,7 +11,7 @@
     <title>Index</title>
     <script src="~/Js/jquery-3.3.1.js"></script>
     <script src="~/Js/vue.js"></script>
-    <script src="~/Js/layui.all.js"></script>
+    <script src="~/Js/layUI/layui.all.js"></script>
     <link href="~/Css/layui.css" rel="stylesheet" />
 
 
@@ -128,7 +128,6 @@
                                 console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                                 console.log(obj.limit); //得到每页显示的条数
                                 methods.GetMonitorLog(obj.curr, true);
-
                             }
                             else {
                                 pageModel.page = obj;
@@ -188,44 +187,7 @@
 
     </script>
 
-    <script>
-
-                                //layui.use('laypage', function () {
-                                //    var laypage = layui.laypage;
-                                //    //执行一个laypage实例
-                                //    laypage.render({
-                                //        elem: 'pageInfo' //注意，这里的 test1 是 ID，不用加 # 号
-                                //        , count: 50,
-                                //        jump: function (obj, first) {
-
-                                //            //obj包含了当前分页的所有参数，比如：
-                                //            console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                                //            console.log(obj.limit); //得到每页显示的条数
-
-                                //            //首次不执行
-                                //            if (!first) {
-                                //                //分页代码
-                                //                this.GetMonitorLog(obj.curr);
-                                //            }
-                                //        }
-                                //    });
-                                //});
-
-                                //layui.use('form', function () {
-                                //    var form = layui.form;
-
-                                //    //监听提交
-                                //    form.on('submit(formDemo)', function (data) {
-                                //        layer.msg(JSON.stringify(data.field));
-                                //        return false;
-                                //    });
-                                //    $ = layui.jquery;
-                                //    //$(document).on('click', '#btnRequest', Monitor);
-                                //    //$(document).on('click', '#btnResponse', GetMonitorLog);
-                                //    form.render();
-                                //});
-
-    </script>
+    
     @*layui初始化*@
     <script src="~/Js/layInit.js"></script>
 </body>

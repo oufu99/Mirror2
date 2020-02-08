@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using Common;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
@@ -13,34 +14,19 @@ namespace RabbitMqReceived
         static void Main(string[] args)
         {
             var channelName = "AaronMq";
+            var channelName2 = "AaronMq2";
+            EventHandler<BasicDeliverEventArgs> func = (model, ea) =>
+              {
+                  var body = ea.Body;
+                  var msg = Encoding.UTF8.GetString(body);
+                  Console.WriteLine("第一个处理中...");
+                  Console.WriteLine(channelName + "接收到了:" + msg);
+                  Console.WriteLine("向第二个Mq发送信息...");
+                  //如果要添加链条其实可以直接写在这  也可以这个方法被调用的时候传入  总是肯定有一个地方会传进来的
+                  RabbitMqHelper.Send(channelName2);
+              };
+            RabbitMqHelper.Received(channelName, func);
 
-            var factory = new ConnectionFactory();
-            factory.HostName = "localhost";
-            factory.UserName = "guest";
-            factory.Password = "guest";
-
-            Console.WriteLine("接收开始");
-            using (var connection = factory.CreateConnection())
-            {
-                using (var channel = connection.CreateModel())
-                {
-
-                    channel.QueueDeclare(channelName, false, false, false, null);
-
-                    var consumer = new EventingBasicConsumer(channel);
-                    channel.BasicConsume(channelName, false, consumer);
-
-
-                    consumer.Received += (model, ea) =>
-                    {
-                        var body = ea.Body;
-                        var msg = Encoding.UTF8.GetString(body);
-                        Console.WriteLine("接收到了" + msg);
-                        //channel.BasicAck(ea.DeliveryTag, true);
-                    };
-                    Console.ReadLine();
-                }
-            }
 
 
             Console.ReadLine();

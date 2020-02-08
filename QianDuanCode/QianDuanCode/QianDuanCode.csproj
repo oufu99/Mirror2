@@ -147,6 +147,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EasyUIController.cs" />
     <Compile Include="Controllers\ToolsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -160,6 +161,11 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Css\layui.css" />
+    <Content Include="Js\css\easy\easyui.css" />
+    <Content Include="Js\css\easy\images\combo_arrow.png" />
+    <Content Include="Js\css\easy\demo.css" />
+    <Content Include="Js\css\easy\easyui1.3.css" />
+    <Content Include="Js\css\easy\icon.css" />
     <Content Include="Js\css\layui.css" />
     <Content Include="Js\css\layui.mobile.css" />
     <Content Include="Js\css\modules\code.css" />
@@ -176,9 +182,10 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Js\easyUI\jquery.easyui.1.3.js" />
+    <Content Include="Js\easyUI\jquery.easyui1.5.js" />
     <Content Include="Js\jquery-3.3.1.js" />
-    <Content Include="Js\layui.all.js" />
-    <Content Include="Js\layInit.js" />
+    <Content Include="Js\layUI\layui.all.js" />
     <Content Include="Js\vue.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -201,10 +208,12 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Js\easyUI\combobox_data1.json" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Tools\Index.cshtml" />
+    <Content Include="Views\EasyUI\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
