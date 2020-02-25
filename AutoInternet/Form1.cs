@@ -29,13 +29,13 @@ namespace AutoInternet
         List<string> fileNameList = new List<string>();
         DateTime d1 = DateTime.Now;
 
-        BoundObject obj;
+        static BoundObject obj;
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
 
-        public ChromiumWebBrowser browser;
+        public static ChromiumWebBrowser browser;
 
         public void InitBrowser()
         {
