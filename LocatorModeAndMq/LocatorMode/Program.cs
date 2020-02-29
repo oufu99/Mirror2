@@ -24,7 +24,7 @@ namespace LocatorMode
             ServiceLocator.SetLocatorProvider(() => locator);
 
             IStudent student = locator.GetInstance<IStudent>();
-            //student.Say();
+            student.Say();
             Console.ReadLine();
         }
     }

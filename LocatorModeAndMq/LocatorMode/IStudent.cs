@@ -13,10 +13,10 @@ namespace LocatorMode
 
     public class Student : IStudent
     {
-        private IBoyStudent[] students;
+        private IBoyStudent[] Boys;
         public Student(IBoyStudent[] _boys)
         {
-            students = _boys;
+            Boys = _boys;
         }
         public void Say()
         {
